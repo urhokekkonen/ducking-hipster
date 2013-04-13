@@ -149,7 +149,7 @@ copper1:
 ;
 ; Load color registers
 ;
-     DC.W    $180,$0FFF      ;Move white into register $180 (COLOR00)
+     DC.W    $180,$0F80      ;Move white into register $180 (COLOR00)
      DC.W    $182,$0F00      ;Move red into register $182 (COLOR01)
      DC.W    $184,$00F0      ;Move green into register $184 (COLOR02)
      DC.W    $186,$000F      ;Move blue into register $186 (COLOR03)
