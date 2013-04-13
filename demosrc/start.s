@@ -16,14 +16,14 @@
 * followed by just doing it in asmpro.
 
 *** includes 
-	incdir	werk:include/
+	incdir	/opt/wincrap/winuae/werk/entieda/include/
 ;	include	'truckincludes.i'
 	include 'hardware/custom.i'
 	include 'exec/exec_lib.i'
 ;	include 'hardware/othercustom.i'
 
 *** Macros
-	waitblit:	macro
+waitblit:	macro
 wb\@:
 	btst #$0e,$dff002
 	bne.s wb\@
@@ -34,8 +34,8 @@ wb\@:
 	section	program,code
 	
 *** constants
-	execbase=4
-	startlist=38
+execbase=4
+startlist=38
 
 * --- Program Start
 
