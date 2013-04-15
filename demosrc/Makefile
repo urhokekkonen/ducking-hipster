@@ -6,13 +6,10 @@ ASFLAGS=-Fhunk -I $(WRKDIR)/../include
 
 LD=$(TOOLCHAIN)/vlink
 
-demostart.exe: start.o makebars.o
+demostart.exe: start.o testface.o makebars.o
 	$(LD) -o $@ $?
 
-start.o: start.s
-	$(AS) $(ASFLAGS) $< -o $@
-
-makebars.o: makebars.s
+%.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 clean:

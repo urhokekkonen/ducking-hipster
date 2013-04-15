@@ -160,7 +160,7 @@ copper1:
 ;
 ; Wait for line 150
 ;
-     DC.W    $1E01,$FF00    ;Wait for line 30, ignore horiz. position
+;     DC.W    $1E01,$FF00    ;Wait for line 30, ignore horiz. position
 ;
 ; Change color registers mid-display
 ;

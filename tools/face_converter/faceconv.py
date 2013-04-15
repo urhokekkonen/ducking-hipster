@@ -24,6 +24,8 @@ if im.size[1] != 312:
 
 
 out.write("; Offset data, converted from " + infile + ", 312 byte values.\n");
+out.write("\txdef " + basename + "_data\n");
+out.write("\tsection facedata,data_f\n");
 out.write(basename + "_data:\n")
 
 # Iterate through lines
