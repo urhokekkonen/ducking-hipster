@@ -1,57 +1,55 @@
 ; vim: ft=asm68k
 ; still hate vim
 ; routine to interpolate in a color gradient.
-; d0 contains our index value
-; d1,d2,d3 return the (8 bit) rgb values.
+
+; Input:
+; d0 contains our index value, a0 contains the address of the gradient datastructure
+
+; gradients are specified as arrays of:
+; struct section {
+;   uint16_t position;
+;   uint16_t (65535 / distance_to_next_section);
+;   uint8_t r,g,b;
+; };
+
+; Return Value:
 ; d0 returns the reduced 12 bit color value
+
+
 * exports
     xdef color_lookup
 		xdef gradient1
 		xdef gradient2
 
+START_GRADIENT: macro
+prev_grad_start: set 0
+	endm
+
+GRADIENT_ENTRY: macro ; parameters are (pos, r,g,b)
+	dc.w \1
+	if \1-prev_grad_start
+		dc.w 65535/(\1-prev_grad_start)
+	else
+		dc.w 0
+	endif
+	dc.b \2
+	dc.b \3
+	dc.b \4
+	dc.b 0
+prev_grad_start: set \1
+	endm
+
 gradient1:
-		dc.w 0
-		dc.w 65535/50
-		dc.b 0
-		dc.b 0
-		dc.b 0
-		dc.b 0
-
-		dc.w 50
-		dc.w 65535/120
-		dc.b 255
-		dc.b 0
-		dc.b 0
-		dc.b 0
-
-		dc.w 170
-		dc.w 65535/220
-		dc.b 255
-		dc.b 255
-		dc.b 0
-		dc.b 0
-
-		dc.w 390
-		dc.w 0
-		dc.b 255
-		dc.b 255
-		dc.b 255
-		dc.b 0
+		START_GRADIENT
+		GRADIENT_ENTRY 0,0,0,0
+		GRADIENT_ENTRY 50,255,0,0
+		GRADIENT_ENTRY 170,255,255,0
+		GRADIENT_ENTRY 390,255,255,255
 
 gradient2:
-		dc.w 0
-		dc.w 65535/400
-		dc.b 0
-		dc.b 0
-		dc.b 255
-		dc.b 0
-
-		dc.w 400
-		dc.w 0
-		dc.b 23
-		dc.b 255
-		dc.b 234
-		dc.b 0
+		START_GRADIENT
+		GRADIENT_ENTRY	0,0,0,255
+		GRADIENT_ENTRY	304,23,255,234
 
 color_lookup:
 		movem.l d1-d6/a0-a1,-(a7)   ; Push all registers that will be clobbered
@@ -78,7 +76,7 @@ loop1:
 		; v -= offset
 		sub.w (a1),d0
 		; v *= multiplier
-		mulu.w 2(a1),d0
+		mulu.w 2(a0),d0
 
 		; Do the actual interpolation
 		; left half
