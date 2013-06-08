@@ -56,12 +56,32 @@ init:   move.l  $dff004,d0 ; vposr
 ; 32000 bytes chipmem each
 
 ;allocate a hunka ram
-    move.l  #4096*2,d0
-    sub.l   d1,d1   ;don't care where in mem
+    move.l  #10240*2,d0
+    move.l  #MEMF_CHIP!MEMF_CLEAR,d1   ;we want chipram
     jsr     _LVOAllocMem(a6)
     move.l  d0,hunkaram
 ;   errorcheck -if 0 we have no mem
     beq exit0
+
+    move.l  #copper1,a0
+    addq    #2,a0
+    swap    d0
+    move.w  d0,(a0)+
+    addq.l  #2,a0
+    swap    d0
+    move.w  d0,(a0)
+
+; now make a line bit in the bitplane
+
+    move.l  hunkaram,a0
+    add.l   #8,a0
+    sub.l   d0,d0
+    move.l  #250,d0
+.drlp
+    move.l  #3,(a0)
+    add.l   #320/8,a0
+    subq    #1,d0
+    bpl.s   .drlp
 
 ; allocate 9200 bytes for copperlist
     move.l  #9200,d0
@@ -69,6 +89,7 @@ init:   move.l  $dff004,d0 ; vposr
     jsr     _LVOAllocMem(a6)
     move.l  d0,coppa
     beq exit1
+
 
 ; copy the block to start
     move.l d0,a1
@@ -112,7 +133,7 @@ exit2:
 
 exit1:
     move.l hunkaram,a1
-    move.l #1000,d0
+    move.l #10240*2,d0  ; you know deallocating the amount we allocated is a GOOD idea
     jsr _LVOFreeMem(a6)
 
 exit0:
