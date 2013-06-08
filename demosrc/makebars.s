@@ -6,19 +6,24 @@
 
 * exports
     xdef    makebars
+    xref testface_data
 
 makebars:
 
     move.l  #$1E,d1
+    ; a0 points to the face data array
+    move.l #testface_data,a0
 loop1:
 ;color blue
 ;    move.l  #$01800008,(a1)+
     move.w  #$0180,(a1)+
     move.w  d1,(a1)+
-; wait for $40 position horizontally
+; wait for position horizontally (according to face data)
     move.w  d1,d0
     asl.w   #8,d0
-    add.w   #$41,d0
+    add.b   (a0)+,d0
+    or      #1,d0
+
     move.w  d0,(a1)+
     move.w  #$FFFE,(a1)+
 ; color white
@@ -26,15 +31,15 @@ loop1:
 ; wait for $A0 horizontally
     move.w  d1,d0
     asl.w   #8,d0
-    add.w   #$51,d0
+    add.w   #$A1,d0
     move.w  d0,(a1)+
     move.w  #$FFFE,(a1)+
 ;color green
     move.l  #$01800080,(a1)+
 ; wait for end of line (or really far)
     move.w  d1,d0
-    asl.w  #8,d0
-    add.w   #$61,d0
+    asl.w   #8,d0
+    add.w   #$F1,d0
     move.w  d0,(a1)+
     move.w  #$FFFE,(a1)+
 ; inc and check
