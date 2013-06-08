@@ -9,6 +9,9 @@
     xref testface_data
     xref color_lookup
 
+time:
+  dc.l 0
+
 makebars:
 
     sub.l   d2,d2
@@ -17,6 +20,13 @@ makebars:
     move.l  #$1E,d1
     ; a0 points to the face data array
     move.l #testface_data,a0
+
+    ; Read and increment time
+    move.l #time,a6
+    move.b (a6),d5
+    addq #1,d5
+    move.b d5,(a6)
+
 loop1:
 ;color blue
 ;    move.l  #$01800008,(a1)+
@@ -27,6 +37,7 @@ loop1:
     ; Gradient lookup
     ; Get gradient thing
     move.l d1,d0
+    add.b d5,d0
     move.l a0,-(a7)
     move.l #gradient1,a0
     jsr color_lookup
@@ -76,6 +87,7 @@ loop1:
 
 ; Second gradient for background
     move.l d1,d0
+    sub.b d5,d0
     move.l a0,-(a7)
     move.l #gradient2,a0
     jsr color_lookup
