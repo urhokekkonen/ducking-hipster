@@ -36,6 +36,8 @@ for i in range(0,312):
 		if(im.getpixel((j,i)) != (0,0,0) and im.getpixel((j,i)) != (0,0,0,255)):
 			break
 	
+	j/=4
+	j+=60
 	# Output its offset
 	out.write("\tdc.b " + str(j) + "\n")
 
