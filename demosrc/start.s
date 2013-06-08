@@ -74,12 +74,15 @@ init:   move.l  $dff004,d0 ; vposr
 ; now make a line bit in the bitplane
 
     move.l  hunkaram,a0
-    add.l   #8,a0
+;    add.l   #2,a0
     sub.l   d0,d0
     move.l  #250,d0
+    move.l  #$FFFFFFFF,d1
 .drlp
-    move.l  #3,(a0)
+;    move.l  #%00001011110000000000000000111101,(a0)
+    move.l  d1,(a0)
     add.l   #320/8,a0
+;    ror     #1,d1
     subq    #1,d0
     bpl.s   .drlp
 

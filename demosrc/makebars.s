@@ -35,7 +35,7 @@ loop1:
     move.w  #$0180,(a1)+
     move.w  d0,(a1)+
 
-; scrolly register
+; scrolly register 102
     move.w  #$0102,(a1)+
 
 ; crappage with nybble twiddling
@@ -51,6 +51,16 @@ loop1:
 
     addq.b  #1,d2   ; yeah we shouldn't overflow here.
     ; note I said shouldn't
+
+; testcarp - 
+; we want to alter the "scanline" drawn
+; by some offset. Which you need to determine from a list somewhere.
+    move.w  $dff0e2,d3
+    rol     #1,d2
+    add.l   d2,d3
+    move.w  #$00E2,(a1)+
+    move.w  d3,(a1)+
+    ror     #1,d2
 
 ; wait for position horizontally (according to face data)
     move.w  d1,d0
@@ -92,6 +102,6 @@ loop1:
 ; inc and check
     addq    #1,d1
     cmp.w   #$0130,d1   ;line 304 for a bit of 'border'
-    blt.s   loop1
+    blt   loop1
     rts
 
