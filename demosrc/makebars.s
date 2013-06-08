@@ -7,6 +7,7 @@
 * exports
     xdef    makebars
     xref testface_data
+    xref color_lookup
 
 makebars:
 
@@ -19,8 +20,17 @@ makebars:
 loop1:
 ;color blue
 ;    move.l  #$01800008,(a1)+
+;random ugly color based on screen address
+;    move.w  #$0180,(a1)+
+;    move.w  d1,(a1)+
+
+    ; Gradient lookup
+    ; Get gradient thing
+    move.l d1,d0
+    jsr color_lookup
     move.w  #$0180,(a1)+
-    move.w  d1,(a1)+
+    move.w  d0,(a1)+
+
 ; scrolly register
     move.w  #$0102,(a1)+
 
