@@ -39,8 +39,7 @@ loop1:
     move.w  #$FFFE,(a1)+
 ; inc and check
     addq    #1,d1
-    cmp.w   #$0118,d1
-;    cmp.l   #$2F,d1
+    cmp.w   #$0130,d1   ;line 304 for a bit of 'border'
     blt.s   loop1
     rts
 

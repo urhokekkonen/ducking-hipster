@@ -158,20 +158,9 @@ copper1:
 ;
      DC.W    bplcon0,$2200      ;2 lores planes, coloron
 ;
-; Wait for line 150
+; Wait for line 30
 ;
      DC.W    $1E01,$FF00    ;Wait for line 30, ignore horiz. position
-;
-; Change color registers mid-display
-;
-;     DC.W    color+00,$0000      ;Move black into register $0180 (COLOR00)
-;     DC.W    color+02,$0FF0      ;Move yellow into register $0182 (COLOR01)
-;     DC.W    color+04,$00FF      ;Move cyan into register $0184 (COLOR02)
-;     DC.W    color+06,$0F0F      ;Move magenta into register $0186 (COLOR03)
-;
-;  End Copper list by waiting for the impossible
-;
-;     DC.W    $FFFF,$FFFE    ;Wait for line 255, H = 254 (never happens)
 
 copperend
 
