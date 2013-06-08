@@ -21,12 +21,17 @@
 		xdef gradient1
 		xdef gradient2
 
+
+; -------- Two macros to specifiy gradients ------------
 START_GRADIENT: macro
 prev_grad_start: set 0
 	endm
 
 GRADIENT_ENTRY: macro ; parameters are (pos, r,g,b)
-	dc.w \1
+	ifle \1
+prev_grad_start: set 0
+	endif
+	dc.w \1-prev_grad_start
 	if \1-prev_grad_start
 		dc.w 65535/(\1-prev_grad_start)
 	else
@@ -38,18 +43,24 @@ GRADIENT_ENTRY: macro ; parameters are (pos, r,g,b)
 	dc.b 0
 prev_grad_start: set \1
 	endm
+; -----------------------------------------------------
 
-gradient1:
+gradient1: ; Red-and-yellow gradient
 		START_GRADIENT
+		rept 10
 		GRADIENT_ENTRY 0,0,0,0
-		GRADIENT_ENTRY 50,255,0,0
-		GRADIENT_ENTRY 170,255,255,0
-		GRADIENT_ENTRY 390,255,255,255
+		GRADIENT_ENTRY 20,255,0,0
+		GRADIENT_ENTRY 30,255,255,0
+		GRADIENT_ENTRY 40,255,255,255
+		endr
 
-gradient2:
+gradient2: ; Blue-and-cyan gradient
 		START_GRADIENT
+		rept 10
 		GRADIENT_ENTRY	0,0,0,255
-		GRADIENT_ENTRY	304,23,255,234
+		GRADIENT_ENTRY	50,23,255,234
+		GRADIENT_ENTRY	100,0,0,255
+		endr
 
 color_lookup:
 		movem.l d1-d6/a0-a1,-(a7)   ; Push all registers that will be clobbered
@@ -62,7 +73,7 @@ color_lookup:
 		clr.l d1
 		bra loop1
 looptop1:
-		subq #1,d0
+		sub.l d1,d0
 		addq #8,a0
 loop1:
 		move.w (a0),d1
@@ -73,8 +84,6 @@ loop1:
 		move.l a0,a1
 		subq #8,a1
 
-		; v -= offset
-		sub.w (a1),d0
 		; v *= multiplier
 		mulu.w 2(a0),d0
 
