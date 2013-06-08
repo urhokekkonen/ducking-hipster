@@ -31,7 +31,7 @@ loop1:
     move.b  d3,d2   ;
     rol.b   #4,d3   ; move to upper nybble
     add.b   d2,d3   ; and add back to lower
-    swap.w  d3      ; and now to upper half of word
+    rol     #8,d3      ; and now to upper half of word
     move.b  #$00,d3 ; 00 in lower
     move.w  d3,(a1)+    ; store to copperlist
 
