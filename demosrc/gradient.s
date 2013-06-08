@@ -6,8 +6,10 @@
 ; d0 returns the reduced 12 bit color value
 * exports
     xdef color_lookup
+		xdef gradient1
+		xdef gradient2
 
-example_gradient:
+gradient1:
 		dc.w 0
 		dc.w 65535/50
 		dc.b 0
@@ -29,18 +31,34 @@ example_gradient:
 		dc.b 0
 		dc.b 0
 
-		dc.w 340
+		dc.w 390
 		dc.w 0
 		dc.b 255
 		dc.b 255
 		dc.b 255
 		dc.b 0
 
+gradient2:
+		dc.w 0
+		dc.w 65535/400
+		dc.b 0
+		dc.b 0
+		dc.b 255
+		dc.b 0
+
+		dc.w 400
+		dc.w 0
+		dc.b 23
+		dc.b 255
+		dc.b 234
+		dc.b 0
+
 color_lookup:
 		movem.l d1-d6/a0-a1,-(a7)   ; Push all registers that will be clobbered
 
-		; a0 points to the gradient
-		move.l #example_gradient,a0
+		; a2 points to the gradient
+		;move.l #example_gradient,a0
+		;move.l a2,a0
 		
 		; Find the segment of the gradient we're in
 		clr.l d1

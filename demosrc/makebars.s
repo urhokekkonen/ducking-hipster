@@ -27,7 +27,11 @@ loop1:
     ; Gradient lookup
     ; Get gradient thing
     move.l d1,d0
+    move.l a0,-(a7)
+    move.l #gradient1,a0
     jsr color_lookup
+    move.l (a7)+,a0
+
     move.w  #$0180,(a1)+
     move.w  d0,(a1)+
 
@@ -56,8 +60,21 @@ loop1:
 
     move.w  d0,(a1)+
     move.w  #$FFFE,(a1)+
+
 ; color white
-    move.l  #$01800FFF,(a1)+
+;    move.l  #$01800FFF,(a1)+
+
+; Second gradient for background
+    move.l d1,d0
+    move.l a0,-(a7)
+    move.l #gradient2,a0
+    jsr color_lookup
+    move.l (a7)+,a0
+
+    move.w #$0180,(a1)+
+    move.w d0,(a1)+
+
+
 ; wait for $A0 horizontally
     move.w  d1,d0
     asl.w   #8,d0
