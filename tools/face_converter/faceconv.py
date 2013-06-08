@@ -33,7 +33,8 @@ for i in range(0,312):
 
 	# Find first non-black pixel
 	for j in range(0,im.size[0]):
-		if(im.getpixel((j,i)) != (0,0,0) and im.getpixel((j,i)) != (0,0,0,255)):
+		pixie = im.getpixel((j,i))
+		if(pixie != (0,0,0) and pixie != (0,0,0,255) and pixie != 1):
 			break
 	
 	j/=4
