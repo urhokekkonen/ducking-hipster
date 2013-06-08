@@ -52,6 +52,7 @@ gradient1: ; Red-and-yellow gradient
 		GRADIENT_ENTRY 20,255,0,0
 		GRADIENT_ENTRY 30,255,255,0
 		GRADIENT_ENTRY 40,255,255,255
+		GRADIENT_ENTRY 50,0,0,0
 		endr
 
 gradient2: ; Blue-and-cyan gradient
@@ -64,10 +65,6 @@ gradient2: ; Blue-and-cyan gradient
 
 color_lookup:
 		movem.l d1-d6/a0-a1,-(a7)   ; Push all registers that will be clobbered
-
-		; a2 points to the gradient
-		;move.l #example_gradient,a0
-		;move.l a2,a0
 		
 		; Find the segment of the gradient we're in
 		clr.l d1
@@ -78,7 +75,7 @@ looptop1:
 loop1:
 		move.w (a0),d1
 		cmp.w d0,d1
-    blt.s   looptop1
+    blt.s looptop1
 
 		; a1 points to the previous segment
 		move.l a0,a1

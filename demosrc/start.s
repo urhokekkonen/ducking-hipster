@@ -99,6 +99,7 @@ init:   move.l  $dff004,d0 ; vposr
     move.l (a0)+,(a1)+
     dbra    d1,.lo1
 ; entering the routine A1 points to the next bit.
+		move.l a1,a5
     jsr makebars
     move.l #$FFFFFFFE,(a1)+
 ;
@@ -113,6 +114,11 @@ wait:   move.l  $dff004,d0 ; vposr
     and.l   #$0001ff00,d0
     cmp.l   #$00001000,d0
     bne.s   wait
+
+		; Update copper list
+		move.l a5,a1
+		jsr makebars
+    move.l #$FFFFFFFE,(a1)+
 
     btst    #6,$bfe001
     bne.s   wait
