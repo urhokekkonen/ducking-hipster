@@ -76,13 +76,16 @@ init:   move.l  $dff004,d0 ; vposr
     move.l  hunkaram,a0
 ;    add.l   #2,a0
     sub.l   d0,d0
-    move.l  #250,d0
-    move.l  #$FFFFFFFF,d1
+    move.l  d0,d1
+    move.l  #31,d0
 .drlp
 ;    move.l  #%00001011110000000000000000111101,(a0)
-    move.l  d1,(a0)
+    addq    #1,d1
+    move.l  #$FFFFFFFF,d2
+    sub.l  d1,d2
+    move.l  d2,(a0)
     add.l   #320/8,a0
-;    ror     #1,d1
+    rol.l   #1,d1
     subq    #1,d0
     bpl.s   .drlp
 
@@ -102,7 +105,7 @@ init:   move.l  $dff004,d0 ; vposr
     move.l (a0)+,(a1)+
     dbra    d1,.lo1
 ; entering the routine A1 points to the next bit.
-		move.l a1,a5
+    move.l a1,a5
     jsr makebars
     move.l #$FFFFFFFE,(a1)+
 ;
@@ -113,14 +116,15 @@ init:   move.l  $dff004,d0 ; vposr
     move.w  copjmp1(a0),d0
 
 * --- Main Body of Demo
-wait:   move.l  $dff004,d0 ; vposr
-    and.l   #$0001ff00,d0
-    cmp.l   #$00001000,d0
-    bne.s   wait
+wait:
+;    move.l  $dff004,d0 ; vposr
+;    and.l   #$0001ff00,d0
+;    cmp.l   #$00001000,d0
+;    bne.s   wait
 
 		; Update copper list
 		move.l a5,a1
-		jsr makebars
+;		jsr makebars
     move.l #$FFFFFFFE,(a1)+
 
     btst    #6,$bfe001
@@ -129,7 +133,8 @@ wait:   move.l  $dff004,d0 ; vposr
 * -- End Program
 fin:    move.l  execbase,a6
     move.l  #grname,a1
-    clr.l   d0
+;    clr.l   d0
+    sub.l   d0,d0
     jsr     _LVOOpenLibrary(a6)
     move.l  d0,a4
     move.l  startlist(a4),$dff080 ; cop1lch
@@ -187,10 +192,11 @@ copper1:
 ; Specify 2 lo-res bitplanes
 ;
      DC.W    bplcon0,$2200      ;2 lores planes, coloron
-;
-; Wait for line 30
-;
+; wait for 30 + 16
      DC.W    $1E01,$FF00    ;Wait for line 30, ignore horiz. position
+    dc.w    $8E,$1e81       ;move the display window so we know where it is.
+    ; and if you want a top raster bordery thing then it would go here.
+;    dc.w    $180,$F     
 
 
 copperend
