@@ -124,7 +124,7 @@ wait:
 
 		; Update copper list
 		move.l a5,a1
-;		jsr makebars
+		jsr makebars
     move.l #$FFFFFFFE,(a1)+
 
     btst    #6,$bfe001
