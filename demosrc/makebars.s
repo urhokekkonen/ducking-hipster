@@ -15,7 +15,8 @@ time:
 makebars:
 
     sub.l   d2,d2
-    move.b  #$00,d2
+    ; ok wtf if we just zer0'd d2 why do we move 0 into it...
+;    move.b  #$00,d2
 
     move.l  #$1E,d1
     ; a0 points to the face data array
@@ -29,10 +30,10 @@ makebars:
 
 loop1:
 ;color blue
-;    move.l  #$01800008,(a1)+
+    move.l  #$01800008,(a1)+
 ;random ugly color based on screen address
-;    move.w  #$0180,(a1)+
-;    move.w  d1,(a1)+
+    move.w  #$0180,(a1)+
+    move.w  d1,(a1)+
 
     ; Gradient lookup
     ; Get gradient thing
@@ -40,7 +41,7 @@ loop1:
     add.b d5,d0
     move.l a0,-(a7)
     move.l #gradient1,a0
-    jsr color_lookup
+ ;   jsr color_lookup
     move.l (a7)+,a0
 
     move.w  #$0180,(a1)+
@@ -90,7 +91,7 @@ loop1:
     sub.b d5,d0
     move.l a0,-(a7)
     move.l #gradient2,a0
-    jsr color_lookup
+;    jsr color_lookup
     move.l (a7)+,a0
 
     move.w #$0180,(a1)+
