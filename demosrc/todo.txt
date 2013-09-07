@@ -1,0 +1,22 @@
+(A) test top of screen offset 
+(B) table for changing start of screen offset
+(A) go 32 wide for wobble
+(B) mirror wobble
+
+mouth talking 'greetz' scroller
+ font 16x16? 16x8?
+ blitter write
+ scroll behind faces / into middle
+
+ face to vase 
+ rotating vase
+
+ background grid
+  - vertical/horizontal
+  - rotate
+  - slide rotate
+
+(C) Logo knight
+(C)  - screen rider car?
+(C)  - lights
+(C)  - sync to 'oh yeah?'
