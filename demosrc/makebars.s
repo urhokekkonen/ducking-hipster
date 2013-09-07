@@ -4,10 +4,13 @@
 ; a1 contains our spottage.
 ; we start on line 30 ($1E)
 
+
 * exports
     xdef    makebars
     xref testface_data
     xref color_lookup
+
+.list
 
 time:
   dc.l 0
@@ -30,17 +33,27 @@ makebars:
     addq #1,d5
     move.b d5,(a6)
 
+
+
 loop1:
 ;random ugly color based on screen address
     move.w  #$0180,(a1)+
     move.w  d1,(a1)+
 
-; ok let's just move the diwstart thing
-    move.w  #$8e,(a1)+
-    move.b  (a0)+,d2
-    add.b   #$1e,d2     ; + offset
-    move.b  d2,(a1)+
-    move.b  #$81,(a1)+
+; move top of screen pointer
+    move.w  #$0e2,(a1)+
+; offsets for face stored in BYTES
+    sub.l   d2,d2
+    move.b  -$1E(a0,d1),d2
+; screen width is 40, math twiddle
+    move.w  d2,d3
+    asl.w   #2,d2
+    add.w   d3,d2
+    asl.w   #3,d2
+; "width of face" * 40 in d2, add the 'original' offset for the bitplane...
+    move.w  hunkaram+2,d3
+    add.w   d2,d3
+    move.w  d3,(a1)+
 
 ; wait for end of line (or really far)
     move.w  d1,d0

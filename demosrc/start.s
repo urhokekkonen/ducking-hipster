@@ -21,6 +21,7 @@
     xref makebars
 
 *** exports
+    xdef    hunkaram
 ; use xdef
 
 *** Macros
@@ -160,9 +161,9 @@ exit0:
 grname: dc.b    "graphics.library",0,0
 
     even
-* locations for 6 bitplanes
-screenmem:
-    dc.l 0,0,0,0,0,0
+* locations for 6 bitplanes [which we aren't using and I need to find coppa faster]
+;screenmem:
+;    dc.l 0,0,0,0,0,0
 coppa:
     dc.l 0
 
