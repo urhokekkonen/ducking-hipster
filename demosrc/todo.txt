@@ -1,6 +1,6 @@
-(A) test top of screen offset 
-(B) table for changing start of screen offset
-(A) go 32 wide for wobble
+x 2013-09-07 (A) test top of screen offset 
+x 2013-09-07 (B) table for changing start of screen offset - didn't need!
+(A) go 32 wide for wobble (needed? prolly with a wider face (: )
 (B) mirror wobble
 
 mouth talking 'greetz' scroller
