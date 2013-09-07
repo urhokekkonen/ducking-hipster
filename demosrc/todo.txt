@@ -1,0 +1,22 @@
+x 2013-09-07 (A) test top of screen offset 
+x 2013-09-07 (B) table for changing start of screen offset - didn't need!
+(A) go 32 wide for wobble (needed? prolly with a wider face (: )
+(B) mirror wobble
+
+mouth talking 'greetz' scroller
+ font 16x16? 16x8?
+ blitter write
+ scroll behind faces / into middle
+
+ face to vase 
+ rotating vase
+
+ background grid
+  - vertical/horizontal
+  - rotate
+  - slide rotate
+
+(C) Logo knight
+(C)  - screen rider car?
+(C)  - lights
+(C)  - sync to 'oh yeah?'

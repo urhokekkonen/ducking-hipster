@@ -1,0 +1,21 @@
+TODO: slanted pic / line  |\   /|
+TODO: modify top of screen each line of copperlist
+
+
+
+allocate memory in chipram for copperlist:
+
+start portion:
+3 bitplanes, sprites off, blitter dma on
+
+start line 50:
+left color set;
+wait horizontal X;
+mid color set;
+wait horizontal X2;
+left color set;
+wait next line
+
+repeat x 312 lines
+
+7 longwords by 312 + some start + some end; so about 9200 bytes

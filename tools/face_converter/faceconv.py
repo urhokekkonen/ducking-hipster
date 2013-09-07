@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # Face-image to whatever-data converter
+# v2 - output offsets relative to 32... or something. (:
 import Image
 import sys
 import re
@@ -36,9 +37,12 @@ for i in range(0,312):
 		pixie = im.getpixel((j,i))
 		if(pixie != (0,0,0) and pixie != (0,0,0,255) and pixie != 1):
 			break
-	
+# offset in triangle - 32 is 1 pixel, 0 is 32 solid pixels. 8 is 24 solid, etc.
+# offset from top of bitmap.
 	j/=4
-	j+=60
+	j = 32-j
+	
+
 	# Output its offset
 	out.write("\tdc.b " + str(j) + "\n")
 

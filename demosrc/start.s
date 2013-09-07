@@ -8,7 +8,7 @@
 * |     /         \
 * |____/   \_______\
 *      |_____|
-*      
+*
 *  Demo: "en tiedä"
 
 *** includes
@@ -21,6 +21,7 @@
     xref makebars
 
 *** exports
+    xdef    hunkaram
 ; use xdef
 
 *** Macros
@@ -29,10 +30,10 @@ wb\@:
     btst #$0e,$dff000
     bne.s wb\@
     endm
-    
+
 * - Program portion
     section BKprogram,code
-    
+
 *** constants
 execbase=4
 startlist=38
@@ -124,7 +125,7 @@ wait:
 
 		; Update copper list
 		move.l a5,a1
-;		jsr makebars
+		jsr makebars
     move.l #$FFFFFFFE,(a1)+
 
     btst    #6,$bfe001
@@ -160,11 +161,11 @@ exit0:
 grname: dc.b    "graphics.library",0,0
 
     even
-* locations for 6 bitplanes
-screenmem:
-    dc.l 0,0,0,0,0,0
+* locations for 6 bitplanes [which we aren't using and I need to find coppa faster]
+;screenmem:
+;    dc.l 0,0,0,0,0,0
 coppa:
-    dc.l 0  
+    dc.l 0
 
     even
 ; - Includes for various things (code) like replays
@@ -196,7 +197,7 @@ copper1:
      DC.W    $1E01,$FF00    ;Wait for line 30, ignore horiz. position
     dc.w    $8E,$1e81       ;move the display window so we know where it is.
     ; and if you want a top raster bordery thing then it would go here.
-;    dc.w    $180,$F     
+;    dc.w    $180,$F
 
 
 copperend
