@@ -5,9 +5,10 @@ AS=$(TOOLCHAIN)/vasm68k
 ASFLAGS=-Fhunk -I $(WRKDIR)/../include
 
 LD=$(TOOLCHAIN)/vlink
+OBJECTS=start.o testface.o makebars.o gradient.o
 
-demostart.exe: start.o testface.o makebars.o gradient.o
-	$(LD) -o $@ $?
+demostart.exe: $(OBJECTS)
+	$(LD) -o $@ $(OBJECTS)
 
 %.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
