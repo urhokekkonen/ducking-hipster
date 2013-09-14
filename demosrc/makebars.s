@@ -33,8 +33,8 @@ makebars:
 loop1:
 ;random ugly color based on screen address
     move.w  #$0180,(a1)+
-    move.w  #$0008,(a1)+
-;    move.w  d1,(a1)+
+
+    move.w  d1,(a1)+
 
 ; move top of screen pointer
     move.w  #$0e2,(a1)+

@@ -1,6 +1,6 @@
-TODO: slanted pic / line  |\   /|
-TODO: modify top of screen each line of copperlist
+PLAN SHIT / IDEA THINGS 
 
+* Illuminati and faces *
 
 
 allocate memory in chipram for copperlist:

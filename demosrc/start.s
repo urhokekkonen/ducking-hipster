@@ -25,13 +25,6 @@
     xdef    hunkaram
 ; use xdef
 
-*** Macros
-waitblit:       macro
-wb\@:
-    btst #$0e,$dff000
-    bne.s wb\@
-    endm
-
 * - Program portion
     section BKprogram,code
 
@@ -65,13 +58,17 @@ init:   move.l  $dff004,d0 ; vposr
 ;   errorcheck -if 0 we have no mem
     beq exit0
 
+; stuff bitplanes into copper
     move.l  #copper1,a0
-    addq    #2,a0
+    move.w  d0,6(a0)
     swap    d0
-    move.w  d0,(a0)+
-    addq.l  #2,a0
+    move.w  d0,2(a0)
     swap    d0
-    move.w  d0,(a0)
+    add.l   #5120,d0
+    move.w  d0,14(a0)
+    swap    d0
+    move.w  d0,10(a0)
+; written that way to reduce swaps.
 
 ; now make a line bit in the bitplane
 
@@ -96,6 +93,12 @@ init:   move.l  $dff004,d0 ; vposr
     jsr     DrawLine
 
 ; fill
+    subq    #2,a6
+    move.l  hunkaram,d0
+    add.l   #5118,d0    ;40*128 - 2
+    move.w  #8168,d1    ;64*127  + 40
+;    fillsize    d1,128,40
+    jsr fillpage
 
     popl    a6
 
@@ -187,10 +190,10 @@ copper1:
 ;
 ; Set up pointers to two bit planes
 ;
-     DC.W    $0E0,$0002      ;Move S0002 into register $0E0 (BPL1PTH)
-     DC.W    $0E2,$1000      ;Move $1000 into register $0E2 (BPL1PTL)
-     DC.W    $0E4,$0002      ;Move $0002 into reqister $0E4 (BPL2PTH)
-     DC.W    $0E6,$5000      ;Move $5000 into register $0E6 (BPL2PTL)
+     DC.W    $0E0,$0000      ;Move S0002 into register $0E0 (BPL1PTH)
+     DC.W    $0E2,$0000      ;Move $1000 into register $0E2 (BPL1PTL)
+     DC.W    $0E4,$0000      ;Move $0002 into reqister $0E4 (BPL2PTH)
+     DC.W    $0E6,$0000      ;Move $5000 into register $0E6 (BPL2PTL)
 ;
 ; Load color registers
 ;

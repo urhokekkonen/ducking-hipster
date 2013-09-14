@@ -3,7 +3,7 @@
 * Truck fixed version
 *******************************************************************************
 
-    xdef    DrawLine, DL_Init,fillcircles
+    xdef    DrawLine, DL_Init,fillpage
     include 'constants.s'
     include 'mathmacros.s'
     include 'hardware/custom.i'
@@ -134,11 +134,16 @@ DL_Init:
 
 *** FILL ROUTINE ***
 
-; a6 dff000, d0 bitplane pointer
-fillpage
-; This is a fill routine that fills a _large_ area
-; it is not a generic fill routine (yet)
+; a6 dff000, d0 bitplane pointer to BOTTOM of fill,
+; d1 size(word)
 
+; This is a fill routine that fills a _large_ area
+; and the size, which is (64*height) * width in WORDS.
+; == WORDS,DAMMIT. ==
+;64*256 (height) + 40 (width) = #$8028
+
+
+fillpage:
     waitblit
 ;blitlab indicates we don't need FWM or LWM. find out later.
     move.l  #-1,bltafwm(a6)          ;both last&first
@@ -146,17 +151,13 @@ fillpage
 ;   %00000000000010010      - desc mode; IFE; no B shift; D on
     move.l  #$09F0000A,bltcon0(a6)  ;both 0 & 1
 ; A pointer - the bottom of the bitplane area we drew to - so
-    add.l   #40960-2,d0
+
     move.l  d0,bltapt(a6)
 ; D pointer is end of the 2nd area. yes, copy+fill.
-;    add.l   #40960,d0
-
     move.l  d0,bltdpt(a6)
 ; NO MODULO
     move.l  #0,bltamod(a6)
-; and the size, which is width in WORDS. WORDS,DAMMIT.
-;64*256 (height) + 40 (width)
-    move.w  #$8028,bltsize(a6)
+    move.w  d1,bltsize(a6)
     rts
 
 

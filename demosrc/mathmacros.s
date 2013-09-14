@@ -108,4 +108,8 @@ wb\@:
     bne.s wb\@
     endm
 
-
+; fillsize: register, height, width
+fillsize:   macro
+    move.w  (64*\2)+\3,\1
+    endm
+ 
