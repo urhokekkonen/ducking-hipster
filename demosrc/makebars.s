@@ -59,7 +59,7 @@ loop1:
 ; inc and check
     addq    #1,d1
     cmp.w   #$0130,d1   ;line 304 for a bit of 'border'
-    ble   loop1
+    blt   loop1
 
 ; end color change
     move.l  #$1800FF0,(a1)+

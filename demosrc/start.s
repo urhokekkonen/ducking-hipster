@@ -78,11 +78,20 @@ init:   move.l  $dff004,d0 ; vposr
     pushl   a6
     lea     $dff000,a6
     jsr     DL_Init
+; 0,128 - 128,0  (or can be the other way cuz same values)
     sub.l   d0,d0
-    move.l  d0,d1
+    move.l  #128,d1
     move.l  #128,d2
-    move.l  #128,d3
+    move.l  d0,d3
 ;    move.l  #40,d4
+    move.l  hunkaram,a0
+    jsr     DrawLine
+
+; 192,0 - 320, 128
+    move.l  #192,d0
+    sub.l   d1,d1
+    move.l  #320,d2
+    move.l  #128,d3
     move.l  hunkaram,a0
     jsr     DrawLine
 
