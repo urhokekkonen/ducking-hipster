@@ -3,6 +3,8 @@ x 2013-09-07 (B) table for changing start of screen offset - didn't need!
 (A) go 32 wide for wobble (needed? prolly with a wider face (: )
 (B) mirror wobble
 
+(A) add the line / fill triangle
+
 mouth talking 'greetz' scroller
  font 16x16? 16x8?
  blitter write

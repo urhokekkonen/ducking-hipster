@@ -16,6 +16,7 @@
     include 'hardware/custom.i'
     include 'exec/exec_lib.i'
     include 'exec/memory.i'
+    include 'mathmacros.s'
 
 *** imports
     xref makebars
@@ -74,21 +75,20 @@ init:   move.l  $dff004,d0 ; vposr
 
 ; now make a line bit in the bitplane
 
-    move.l  hunkaram,a0
-;    add.l   #2,a0
+    pushl   a6
+    lea     $dff000,a6
+    jsr     DL_Init
     sub.l   d0,d0
     move.l  d0,d1
-    move.l  #31,d0
-.drlp
-;    move.l  #%00001011110000000000000000111101,(a0)
-    addq    #1,d1
-    move.l  #$FFFFFFFF,d2
-    sub.l  d1,d2
-    move.l  d2,(a0)
-    add.l   #320/8,a0
-    rol.l   #1,d1
-    subq    #1,d0
-    bpl.s   .drlp
+    move.l  #128,d2
+    move.l  #128,d3
+;    move.l  #40,d4
+    move.l  hunkaram,a0
+    jsr     DrawLine
+
+; fill
+
+    popl    a6
 
 ; allocate 9200 bytes for copperlist
     move.l  #9200,d0
@@ -124,9 +124,9 @@ wait:
 ;    bne.s   wait
 
 		; Update copper list
-		move.l a5,a1
-		jsr makebars
-    move.l #$FFFFFFFE,(a1)+
+;		move.l a5,a1
+;		jsr makebars
+;    move.l #$FFFFFFFE,(a1)+
 
     btst    #6,$bfe001
     bne.s   wait

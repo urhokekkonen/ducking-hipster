@@ -45,8 +45,8 @@ for i in range(0, im.size[1]):
 			break
 # offset in triangle - 32 is 1 pixel, 0 is 32 solid pixels. 8 is 24 solid, etc.
 # offset from top of bitmap.
-#	j/=4
-#	j = 32-j
+	j/=4
+	j = 64 - j
 
 
 	# Output its offset

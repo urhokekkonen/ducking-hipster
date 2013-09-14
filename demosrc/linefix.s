@@ -111,15 +111,10 @@ Oktants:	dc.b	SML+1,SML+1+$40
 		dc.b	SML+17,SML+17+$40
 		dc.b	SML+9,SML+9+$40
 		dc.b	SML+21,SML+21+$40
-;­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­
-;		Optimized Init Part... A6 = $DFF000 > Kills : D0-D1
 
-waitblit:	macro
-	btst #$0e,$dff002
-wb\@:
-	btst #$0e,$dff002
-	bne.s wb\@
-	endm
+;­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­
+*** INIT PART ***
+;       Optimized Init Part... A6 = $DFF000 > Kills : D0-D1
 
 DL_Init:
 	addq.w	#2,a6		; A6 = $DFF002 for DrawLine !
@@ -137,8 +132,13 @@ DL_Init:
 		move.w	d0,bltdmod-2(a6)
 		rts
 
+*** FILL ROUTINE ***
+
 ; a6 dff000, d0 bitplane pointer
-fillcircles
+fillpage
+; This is a fill routine that fills a _large_ area
+; it is not a generic fill routine (yet)
+
     waitblit
 ;blitlab indicates we don't need FWM or LWM. find out later.
     move.l  #-1,bltafwm(a6)          ;both last&first
@@ -164,4 +164,14 @@ fillcircles
 
 ;DL_Exit:	subq.w	#2,a6		; A6 = $DFF000
 ;		rts
+
+; IF for some reason you don't use the macro file
+; then uncomment this macro.
+
+;waitblit:   macro
+;    btst #$0e,$dff002
+;wb\@:
+;    btst #$0e,$dff002
+;    bne.s wb\@
+;    endm
 

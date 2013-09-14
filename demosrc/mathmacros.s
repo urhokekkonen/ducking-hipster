@@ -101,4 +101,11 @@ popl	macro
 	pop	l,\1
 	endm
 
+waitblit:   macro
+    btst #$0e,$dff002
+wb\@:
+    btst #$0e,$dff002
+    bne.s wb\@
+    endm
+
 

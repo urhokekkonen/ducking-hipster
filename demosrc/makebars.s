@@ -1,16 +1,13 @@
 ; vim: ft=asm68k
 ; still hate vim
-; routine to make the copperbars.
-; a1 contains our spottage.
+; routine to make the FACES. this is now faces.
+; a1 contains our spottage. I don't know what that means. -S. Palin
 ; we start on line 30 ($1E)
 
-
 * exports
-    xdef    makebars
+    xdef  makebars
     xref testface_data
     xref color_lookup
-
-.list
 
 time:
   dc.l 0
@@ -32,8 +29,6 @@ makebars:
     move.b (a6),d5
     addq #1,d5
     move.b d5,(a6)
-
-
 
 loop1:
 ;random ugly color based on screen address
@@ -64,6 +59,9 @@ loop1:
 ; inc and check
     addq    #1,d1
     cmp.w   #$0130,d1   ;line 304 for a bit of 'border'
-    blt   loop1
+    ble   loop1
+
+; end color change
+    move.l  #$1800FF0,(a1)+
     rts
 

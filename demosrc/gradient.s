@@ -96,7 +96,7 @@ loop1:
 		mulu.w d0,d1
 		mulu.w d0,d2
 		mulu.w d0,d3
-		
+
 		; right half
 		move.l #65535,d4
 		sub.l d0,d4
