@@ -33,7 +33,8 @@ makebars:
 loop1:
 ;random ugly color based on screen address
     move.w  #$0180,(a1)+
-    move.w  d1,(a1)+
+    move.w  #$0008,(a1)+
+;    move.w  d1,(a1)+
 
 ; move top of screen pointer
     move.w  #$0e2,(a1)+
@@ -51,14 +52,34 @@ loop1:
     move.w  d3,(a1)+
 
 ; wait for end of line (or really far)
+
+; Britelite: wait for position bf or something on ff
+; then 07 on 00 ($100)
+
+    cmp.w   #$FF,d1
+    bne.s   @regular
+; WAIT now for far left side.
+    move.l  #$FFBFFFFE,(a1)+
+; color for testing
+;    move.l  #$1800888,(a1)+
+
+; And now check to see if we went to the next line...
+; we have to do this because of the 8 bit precision I think
+    move.l  #$0107FFFE,(a1)+
+;    addq    #1,d1
+    bra.s   @resume
+
+@regular
     move.w  d1,d0
     asl.w   #8,d0
-    add.w   #$F1,d0
+    add.w   #$01,d0
     move.w  d0,(a1)+
-    move.w  #$FFFE,(a1)+
+    move.w  #$FF00,(a1)+
+
+@resume
 ; inc and check
     addq    #1,d1
-    cmp.w   #$0130,d1   ;line 304 for a bit of 'border'
+    cmp.w   #310,d1   ;line 304 for a bit of 'border'
     blt   loop1
 
 ; end color change
