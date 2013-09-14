@@ -149,9 +149,8 @@ fillpage:
     move.l  #-1,bltafwm(a6)          ;both last&first
 ;   %00001001111110000      - no A shift; use A,D; "A" minterm
 ;   %00000000000010010      - desc mode; IFE; no B shift; D on
-    move.l  #$09F0000A,bltcon0(a6)  ;both 0 & 1
+    move.l  #$09F0000E,bltcon0(a6)  ;both 0 & 1
 ; A pointer - the bottom of the bitplane area we drew to - so
-
     move.l  d0,bltapt(a6)
 ; D pointer is end of the 2nd area. yes, copy+fill.
     move.l  d0,bltdpt(a6)

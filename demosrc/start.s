@@ -95,7 +95,7 @@ init:   move.l  $dff004,d0 ; vposr
 ; fill
     subq    #2,a6
     move.l  hunkaram,d0
-    add.l   #5118,d0    ;40*128 - 2
+    add.l   #5120,d0    ;40*128 - 2
     move.w  #8168,d1    ;64*127  + 40
 ;    fillsize    d1,128,40
     jsr fillpage
