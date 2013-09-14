@@ -77,4 +77,28 @@ div2048:    macro
     asr.\1  #1,\2
     endm
 
+push	macro
+	move.\1	\2,-(sp)
+	endm
+
+pop	macro
+	move.\1	(sp)+,\2
+	endm
+
+pushw	macro
+	push	w,\1
+	endm
+
+pushl	macro
+	push	l,\1
+	endm
+
+popw	macro
+	pop	w,\1
+	endm
+
+popl	macro
+	pop	l,\1
+	endm
+
 
