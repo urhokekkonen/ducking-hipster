@@ -30,6 +30,12 @@ makebars:
     addq #1,d5
     move.b d5,(a6)
 
+* TOPSTUFF - gathered from twiddling with bitplanes in debugger *
+* and this did not really fix things much. Figure out the modulo etc. *
+    move.l  #$0108FFFE,(a1)+
+    move.l  #$008e207e,(a1)+
+    move.l  #$009036c9,(a1)+
+
 loop1:
 ;random ugly color based on screen address
     move.w  #$0180,(a1)+

@@ -154,8 +154,9 @@ fillpage:
     move.l  d0,bltapt(a6)
 ; D pointer is end of the 2nd area. yes, copy+fill.
     move.l  d0,bltdpt(a6)
-; NO MODULO
-    move.l  #0,bltamod(a6)
+; D2 = MODULO
+    move.l  0,bltamod(a6)
+;    move.l  0,bltdmod(a6)
     move.w  d1,bltsize(a6)
     rts
 

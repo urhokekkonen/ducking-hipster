@@ -87,17 +87,16 @@ init:   move.l  $dff004,d0 ; vposr
 ; 192,0 - 320, 128
     move.l  #192,d0
     sub.l   d1,d1
-    move.l  #320,d2
-    move.l  #128,d3
+    move.l  #319,d2
+    move.l  #127,d3
     move.l  hunkaram,a0
     jsr     DrawLine
 
 ; fill
     subq    #2,a6
     move.l  hunkaram,d0
-    add.l   #5120,d0    ;40*128 - 2
-    move.w  #8168,d1    ;64*127  + 40
-;    fillsize    d1,128,40
+    add.l   #5119,d0    ;40*129 - 1
+    move.w  #8232,d1    ;64*128  + 40
     jsr fillpage
 
     popl    a6
@@ -208,6 +207,7 @@ copper1:
 ; wait for 30 + 16
      DC.W    $1E01,$FF00    ;Wait for line 30, ignore horiz. position
     dc.w    $8E,$1e81       ;move the display window so we know where it is.
+
     ; and if you want a top raster bordery thing then it would go here.
 ;    dc.w    $180,$F
 
