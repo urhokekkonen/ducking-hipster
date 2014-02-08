@@ -1,9 +1,9 @@
 ; vim: ft=asm68k
 * I HATE VIM. I'm using my VISUX plugin.
-*    ______.
-*   /  /   |
-* _/  /|   l______
-* |  /_|         / BREaKFAST KLUB
+* _________.
+* |     \  |
+* ___/   > l______
+* |     /        / BREaKFAST KLUB
 * |  .  \     __/_  Demo "System"
 * |     /         \
 * |____/   \_______\
@@ -16,6 +16,8 @@
     include 'hardware/custom.i'
     include 'exec/exec_lib.i'
     include 'exec/memory.i'
+    include 'graphics/gfxbase.i'
+    include 'graphics/graphics_lib.i'
     include 'mathmacros.s'
 
 *** imports
@@ -37,6 +39,23 @@ startlist=38
 bkprogstart:
     move.l  execbase,a6
     jsr     _LVOForbid(a6)
+    lea     grname(pc),a1
+    moveq   #33,d0
+    jsr     _LVOOpenLibrary(a6)
+    move.l  d0,gfxbase          ;store gfxbase for later
+    beq     exit0
+
+    move.l  d0,a6           ;gfxlib, NOT execlib in a6
+    move.l  gb_ActiView(a6),wbview
+
+    sub.l   a1,a1
+    jsr     _LVOLoadView(a6)
+    jsr     _LVOWaitTOF(a6)
+    jsr     _LVOWaitTOF(a6)         ;twice
+
+    move.l  execbase,a6
+
+
 init:   move.l  $dff004,d0 ; vposr
     and.l   #$0001ff00,d0
     cmp.l   #$00001000,d0
@@ -143,14 +162,28 @@ wait:
     bne.s   wait
 
 * -- End Program
-fin:    move.l  execbase,a6
-    move.l  #grname,a1
+fin:
+    move.l  wbview(pc),a1
+    move.l  gfxbase(pc),a6
+    jsr     _LVOLoadView(a6)     ;fix view properly
+    jsr     _LVOWaitTOF(a6)
+    jsr     _LVOWaitTOF(a6)      ;twice to be sure
+    move.l  gb_copinit(a6),$dff080.L    ;fix copperlist
+    move.w  #$0ACC,$dff088
+
+    move.l  gfxbase(pc),a1      ;can't we move a6->a1 here?
+    move.l  execbase,a6
+    jsr     _LVOCloseLibrary(a6)    ;close gfxlib
+
+;    move.l  execbase,a6
+;    move.l  #grname,a1
 ;    clr.l   d0
-    sub.l   d0,d0
-    jsr     _LVOOpenLibrary(a6)
-    move.l  d0,a4
-    move.l  startlist(a4),$dff080 ; cop1lch
-    clr.w   $dff088 ; copjmp1
+;    sub.l   d0,d0
+;    jsr     _LVOOpenLibrary(a6)
+;    move.l  d0,a4
+;    move.l  startlist(a4),$dff080 ; cop1lch
+;    move.w  copjmp1(a0),d0
+;    clr.w   $dff088 ; copjmp1
 ; free our ... stuff
 exit2:
     move.l coppa,a1
@@ -176,7 +209,13 @@ grname: dc.b    "graphics.library",0,0
 ;screenmem:
 ;    dc.l 0,0,0,0,0,0
 coppa:
-    dc.l 0
+    dc.l    0
+
+gfxbase:
+    dc.l    0
+
+wbview:
+    dc.l    0
 
     even
 ; - Includes for various things (code) like replays
