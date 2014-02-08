@@ -55,7 +55,6 @@ bkprogstart:
 
     move.l  execbase,a6
 
-
 init:   move.l  $dff004,d0 ; vposr
     and.l   #$0001ff00,d0
     cmp.l   #$00001000,d0
@@ -111,12 +110,19 @@ init:   move.l  $dff004,d0 ; vposr
     move.l  hunkaram,a0
     jsr     DrawLine
 
+;    jmp     x0
+
 ; fill
     subq    #2,a6
     move.l  hunkaram,d0
     add.l   #5119,d0    ;40*129 - 1
-    move.w  #8232,d1    ;64*128  + 40
+;    move.w  #8232,d1    ;64*128  + 40
+
+    move.w  #64<<6+40,d1
+
     jsr fillpage
+
+;x0:
 
     popl    a6
 
@@ -126,7 +132,6 @@ init:   move.l  $dff004,d0 ; vposr
     jsr     _LVOAllocMem(a6)
     move.l  d0,coppa
     beq exit1
-
 
 ; copy the block to start
     move.l d0,a1
@@ -163,14 +168,6 @@ wait:
 
 * -- End Program
 fin:
-    move.l  wbview(pc),a1
-    move.l  gfxbase(pc),a6
-    jsr     _LVOLoadView(a6)     ;fix view properly
-    jsr     _LVOWaitTOF(a6)
-    jsr     _LVOWaitTOF(a6)      ;twice to be sure
-    move.l  gb_copinit(a6),$dff080.L    ;fix copperlist
-    move.w  #$0ACC,$dff088
-
     move.l  gfxbase(pc),a1      ;can't we move a6->a1 here?
     move.l  execbase,a6
     jsr     _LVOCloseLibrary(a6)    ;close gfxlib
@@ -196,6 +193,16 @@ exit1:
     jsr _LVOFreeMem(a6)
 
 exit0:
+    move.l  wbview(pc),a1
+    move.l  gfxbase(pc),a6
+    jsr     _LVOLoadView(a6)     ;fix view properly
+    jsr     _LVOWaitTOF(a6)
+    jsr     _LVOWaitTOF(a6)      ;twice to be sure
+    move.l  gb_copinit(a6),$dff080.L    ;fix copperlist
+    move.w  #$0ACC,$dff088
+
+    move.l  execbase,a6
+
     move.w  #%1000000000100000,$dff096 ; dmacon
 ;       jsr     mt_end
     jsr     _LVOPermit(a6)
