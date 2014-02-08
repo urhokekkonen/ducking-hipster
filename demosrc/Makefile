@@ -13,7 +13,7 @@ demostart.exe: $(OBJECTS)
 %.o: %.s
 	$(AS) $(ASFLAGS) $< -o $@
 
+.PHONY:	clean
 clean:
-	rm demostart.exe *.o *~
-
+	rm demostart.exe *.o
 
